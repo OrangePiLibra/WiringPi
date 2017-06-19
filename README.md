@@ -8,7 +8,7 @@ The Open source project of WiringPi on OrangePi. maintain from www.orangepi.org
   * Download
 
     ```
-      git clone 
+      env GIT_SSL_NO_VERIFY=true git clone https://github.com/OrangePiLibra/WiringPi.git 
     ```
   * Compile and install wiringPi
    

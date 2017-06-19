@@ -13,8 +13,8 @@
 #define PA1                          1
 #define GPIO_DEMO_INPUT_MODE         1
 #define GPIO_DEMO_OUTPUT_MODE        0
-#define GPIO_2G_IOT_GROUP_C          1
-#define GPIO_2G_IOT_GENERAL_GROUP    0
+#define GPIO_2G_IOT_GROUP_C          0
+#define GPIO_2G_IOT_GENERAL_GROUP    1
 
 static void OrangePi_2G_IOT_Demo(void);
 static void OrangePi_2G_IOT_GPIOC_Demo(void);
@@ -24,12 +24,12 @@ static void OrangePi_2G_IOT_GPIOC_Demo(void);
  */
 int main(int argc, char *argv[])
 {
-#if GPIO_2G_IOT_GENERAL_GROUP
+#if GPIO_2G_IOT_GROUP_C
 	/* OrangePi 2G-IOT GPIO C group */
 	OrangePi_2G_IOT_GPIOC_Demo();
 #endif
 
-#if GPIO_2G_IOT_GROUP_C
+#if GPIO_2G_IOT_GENERAL_GROUP
 	/* OrangePi 2G-IOT General GPIO */
 	OrangePi_2G_IOT_Demo();
 #endif
