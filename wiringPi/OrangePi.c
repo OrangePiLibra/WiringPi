@@ -10,21 +10,26 @@
 
 #ifdef CONFIG_ORANGEPI_2G_IOT
 int pinToGpioOrangePi[64] =
-{
-  17, 18, 27, 22, 23, 24, 25, 4,    // From the Original Wiki - GPIO 0 through 7:   wpi  0 -  7
-   2,  3,               // I2C  - SDA0, SCL0                wpi  8 -  9
-   8,  7,               // SPI  - CE1, CE0              wpi 10 - 11
-  10,  9, 11,               // SPI  - MOSI, MISO, SCLK          wpi 12 - 14
-  14, 15,               // UART - Tx, Rx                wpi 15 - 16
-  -1, -1, -1, -1,           // Rev 2: New GPIOs 8 though 11         wpi 17 - 20
-   5,  6, 13, 19, 26,           // B+                       wpi 21, 22, 23, 24, 25
-  12, 16, 20, 21,           // B+                       wpi 26, 27, 28, 29
-   0,  1,               // B+                       wpi 30, 31
+{ 
+	70,  27,      // 0, 1
+	14,  15,      // 2, 3
+	69,  89,      // 4  5
+	16,  56,      // 6, 7
+	62,  63,      // 8, 9
+	5,    6,      //10,11
+	4,    3,      //12,13
+	2,   72,      //14,15
+	71,  -1,      //16,17
+	-1,  -1,      //18,19
+	-1,  90,      //20,21
+	91,  92,      //22,23
+	93,  94,      //24,25
+	41,  40,      //26,27
+	38,  39,    //28,29
+	1,    0,    //30,31
 
-// Padding:
-
-  -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,   // ... 47
-  -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,   // ... 63
+	-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, // ... 47
+	-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,// ... 63
 };
 
 int physToGpioOrangePi[64] =//head num map to OrangePi
@@ -100,50 +105,52 @@ int ORANGEPI_PIN_MASK[4][32] =  //[BANK]  [INDEX]
 #ifdef CONFIG_ORANGEPI_PC2
 int pinToGpioOrangePi[64] =
 {
-  17, 18, 27, 22, 23, 24, 25, 4,    // From the Original Wiki - GPIO 0 through 7:   wpi  0 -  7
-   2,  3,               // I2C  - SDA0, SCL0                wpi  8 -  9
-   8,  7,               // SPI  - CE1, CE0              wpi 10 - 11
-  10,  9, 11,               // SPI  - MOSI, MISO, SCLK          wpi 12 - 14
-  14, 15,               // UART - Tx, Rx                wpi 15 - 16
-  -1, -1, -1, -1,           // Rev 2: New GPIOs 8 though 11         wpi 17 - 20
-   5,  6, 13, 19, 26,           // B+                       wpi 21, 22, 23, 24, 25
-  12, 16, 20, 21,           // B+                       wpi 26, 27, 28, 29
-   0,  1,               // B+                       wpi 30, 31
+	1,110,     // 0, 1
+	0,  3,     // 2, 3
+	68, 71,    // 4  5
+	2,  6,     // 6, 7
+	12, 11,    // 8, 9
+	13, 21,    //10,11
+	15, 16,    //12,13
+	14, 69,    //14,15
+	70, -1,    //16,17
+	-1, -1,    //18,19
+	-1,  7,    //20,21
+	8,  9,     //22,23
+	10,107,    //24,25
+	200,201,   //26,27
+	198,199,    //28,29
+	19, 18,    //30,31
 
-// Padding:
-
-  -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,   // ... 47
-  -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,   // ... 63
+	-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, // ... 47
+	-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,// ... 63
 };
 
 int physToGpioOrangePi[64] =//head num map to OrangePi
 {
-  -1,       // 0
-  -1, -1,   // 1, 2
-   2, -1,
-   3, -1,
-   4, 14,
-  -1, 15,
-  17, 18,
-  27, -1,
-  22, 23,
-  -1, 24,
-  10, -1,
-   9, 25,
-  11,  8,
-  -1,  7,   // 25, 26
-
-  0,   1,   //27, 28
-  5,  -1,  //29, 30
-  6,  12,  //31, 32
-  13, -1, //33, 34
-  19, 16, //35, 36
-  26, 20, //37, 38
-  -1, 21, //39, 40
-// Padding:
-
-  -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,   // ... 56
-  -1, -1, -1, -1, -1, -1, -1,   // ... 63
+	-1,          // 0
+	-1,    -1,   // 1, 2
+	12,    -1,   // 3, 4
+	11,    -1,   // 5, 6
+	6,     69,   // 7, 8
+	-1,    70,   // 9, 10
+	1,    110,   //11, 12
+	0,     -1,   //13, 14
+	3,     68,   //15, 16
+	-1,    71,   //17, 18
+	15,    -1,   //19, 20
+	16,     2,   //21, 22
+	14,    13,   //23, 24
+	-1,    21,   //25, 26
+	19,    18,   //27, 28
+	7,     -1,   //29, 30
+	8,    200,   //31, 32
+	9,     -1,   //33, 34
+	10,   201,   //35, 36
+	107,  198,   //37, 38
+	-1,   199,   //39, 40
+	-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, //41-> 55
+	-1, -1, -1, -1, -1, -1, -1, -1 // 56-> 63
 };
 
 int physToPinOrangePi[64] = //return wiringPI pin
@@ -176,14 +183,18 @@ int physToPinOrangePi[64] = //return wiringPI pin
   -1, -1, -1, -1, -1, -1, -1,   // ... 63
 };
 
-int ORANGEPI_PIN_MASK[4][32] =  //[BANK]  [INDEX]
+int ORANGEPI_PIN_MASK[9][32] =  //[BANK]  [INDEX]
 {
- { 0, 1, 2, 3,-1,-1, 6, 7, 8, 9,10,11,12,13,14,-1,-1,-1,18,19,20,21,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,},//PA
- { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,},//PB
- { 0, 1, 2, 3, 4,-1,-1, 7,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,},//PC
- {-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,14,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,},//PD
+  { 0, 1, 2, 3,-1,-1, 6, 7, 8, 9,10,11,12,13,14,15,16,-1,18,19,20,21,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,},//PA
+  {-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,},//PB
+  { 0, 1, 2, 3, 4, 5, 6, 7,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,},//PC
+  {-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,11,-1,-1,14,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,},//PD
+  {-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,},//PE
+  {-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,},//PF
+  {-1,-1,-1,-1,-1,-1, 6, 7, 8, 9,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,},//PG
+  {-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,},//PH
+  {-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,},//PI
 };
-
 #endif /* CONFIG_ORANGEPI_2G_IOT */
 
 volatile uint32_t *OrangePi_gpio;
@@ -204,7 +215,7 @@ unsigned int readR(unsigned int addr)
 	else                         /* Group A, B and D */
 		val = *((char *)OrangePi_gpio + mmap_seek);
     return val;
-#elif CONFIG_ORANGEPI_PC
+#elif CONFIG_ORANGEPI_PC2
 	uint32_t val = 0;
 	uint32_t mmap_base = (addr & ~MAP_MASK);
 	uint32_t mmap_seek = ((addr - mmap_base) >> 2);
@@ -253,7 +264,7 @@ int OrangePi_set_gpio_mode(int pin, int mode)
 #elif CONFIG_ORANGEPI_PC2
 	int offset = ((index - ((index >> 3) << 3)) << 2);
 
-	phyaddr = GPIO_BASE + (bank * 36) + ((index >> 3) << 2);
+	phyaddr = GPIO_BASE_MAP + (bank * 36) + ((index >> 3) << 2);
 #endif
 
 #ifdef CONFIG_ORANGEPI_2G_IOT
@@ -278,6 +289,11 @@ int OrangePi_set_gpio_mode(int pin, int mode)
 #endif
     /* Ignore unused gpio */
     if (ORANGEPI_PIN_MASK[bank][index] != -1) {
+#ifdef CONFIG_ORANGEPI_PC2
+		regval = readR(phyaddr);
+			if (wiringPiDebug)
+				printf("Before read reg val: 0x%x offset:%d\n",regval,offset);
+#endif
         if (wiringPiDebug)
             printf("Register[%#x]: %#x index:%d\n", phyaddr, regval, index);
 
@@ -305,7 +321,7 @@ int OrangePi_set_gpio_mode(int pin, int mode)
 			writeR(regval, phyaddr);
             regval = readR(phyaddr);
             if (wiringPiDebug)
-                printf("Out mode ready set val: 0x%x\n",regval);
+                printf("Out mode get value: 0x%x\n",regval);
 #endif
         } else {
             printf("Unknow mode\n");
@@ -328,7 +344,7 @@ int OrangePi_digitalWrite(int pin, int value)
 #elif CONFIG_ORANGEPI_PC2
     unsigned int regval = 0;
 	
-	phyaddr = GPIO_BASE + (bank * 36) + 0x10;
+	phyaddr = GPIO_BASE_MAP + (bank * 36) + 0x10;
 #endif
 
 #ifdef CONFIG_ORANGEPI_2G_IOT
@@ -409,6 +425,9 @@ int OrangePi_digitalRead(int pin)
 	int bank = pin >> 5;
 	int index = pin - (bank << 5);
 	int val;
+#ifdef CONFIG_ORANGEPI_PC2
+	unsigned int phyaddr = GPIO_BASE_MAP + (bank * 36) + 0x10;
+#endif
 
 #ifdef CONFIG_ORANGEPI_2G_IOT
 	unsigned int base_address = 0;
@@ -436,14 +455,23 @@ int OrangePi_digitalRead(int pin)
 	phys_SET_R = base_address + SET_REGISTER;
 	phys_VAL_R = base_address + VAL_REGISTER;
 #endif
-
-#ifdef CONFIG_ORANGEPI_2G_IOT
-	if (readR(phys_OEN_R) & GPIO_BIT(index))   /* Input */ 
-		val = (readR(phys_VAL_R) & GPIO_BIT(index)) ? 1 : 0;
-	else                                       /* Ouput */
-		val = (readR(phys_SET_R) & GPIO_BIT(index)) ? 1 : 0;
-	return val;
+	if (ORANGEPI_PIN_MASK[bank][index] != -1) {
+#ifdef CONFIG_ORANGEPI_PC2
+		val = readR(phyaddr);
+		val = val >> index;
+		val &= 1;
+		if (wiringPiDebug)
+			printf("Read reg val: 0x%#x, bank:%d, index:%d\n", val, bank, index);
+		return val;
+#elif CONFIG_ORANGEPI_2G_IOT
+		if (readR(phys_OEN_R) & GPIO_BIT(index))   /* Input */ 
+			val = (readR(phys_VAL_R) & GPIO_BIT(index)) ? 1 : 0;
+		else                                       /* Ouput */
+			val = (readR(phys_SET_R) & GPIO_BIT(index)) ? 1 : 0;
+		return val;
 #endif
+	}
+	return 0;
 }
 
 /*

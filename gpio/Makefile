@@ -35,10 +35,34 @@ CFLAGS	+= $(DEBUG) -Wall $(INCLUDE) -Winline -pipe
 LDFLAGS	= -L$(DESTDIR)$(PREFIX)/lib
 LIBS    = -lwiringPi -lwiringPiDev -lpthread -lm
 
+ifeq ($(PLATFORM),)
+  PLATFORM = OrangePi_2G-IOT
+  #PLATFORM = OrangePi_PC2
+endif
+
+ifeq ($(PLATFORM), OrangePi_2G-IOT)
+EXTRA_CFLAGS = -DCONFIG_ORANGEPI_2G_IOT
+EXTRA_CFLAGS += -DCONFIG_ORANGEPI
+endif
+
+ifeq ($(PLATFORM), OrangePi_PC2)
+EXTRA_CFLAGS = -DCONFIG_ORANGEPI_PC2
+EXTRA_CFLAGS += -DCONFIG_ORANGEPI
+endif
+
 # May not need to  alter anything below this line
 ###############################################################################
 
 SRC	=	gpio.c extensions.c readall.c pins.c
+
+ifeq ($(PLATFORM), OrangePi_2G-IOT)
+  SRC += OrangePi.c
+endif
+
+ifeq ($(PLATFORM), OrangePi_PC2)
+  SRC += OrangePi.c
+endif
+
 
 OBJ	=	$(SRC:.c=.o)
 
@@ -50,7 +74,7 @@ gpio:	$(OBJ)
 	
 .c.o:
 	@echo [Compile] $<
-	@$(CC) -c $(CFLAGS) $< -o $@
+	@$(CC) -c $(CFLAGS) $(EXTRA_CFLAGS) $< -o $@
 
 .PHONY:	clean
 clean:

@@ -64,15 +64,14 @@
 
 #ifdef CONFIG_ORANGEPI_PC2
 /************** OrangePi H5 ***********************/
-#define GPIOA_BASE                         (0x01C20800)
+#define GPIOA_BASE                         (0x01C20000)
 #define GPIO_NUM                           (0x60)
-
+#define GPIO_BASE_MAP                      (0x01C20800)
 
 #endif
 
 /****************** Global data *********************/
 /* Current version */
-#define PI_MODEL_ORANGEPI  1
 #define PI_MAKER_ORANGEPI  0xfffff
 #define MAX_PIN_NUM        GPIO_NUM
 #define MAP_SIZE           (4 * 4096) 
@@ -83,7 +82,6 @@
 extern int pinToGpioOrangePi[64];
 extern int physToGpioOrangePi[64];
 extern int physToPinOrangePi[64];
-extern int ORANGEPI_PIN_MASK[4][32];
 extern volatile uint32_t *OrangePi_gpio;
 extern volatile uint32_t *OrangePi_gpioC;
 
@@ -96,5 +94,12 @@ extern unsigned int readR(unsigned int addr);
 extern void writeR(unsigned int val, unsigned int addr);
 extern int OrangePi_digitalWrite(int pin, int value);
 extern int OrangePi_digitalRead(int pin);
+
+#ifdef CONFIG_ORANGEPI_2G_IOT
+extern int ORANGEPI_PIN_MASK[4][32];
+#elif CONFIG_ORANGEPI_PC2
+extern int ORANGEPI_PIN_MASK[9][32];
+extern int physToWpiOrangePi[64];
+#endif
 
 #endif

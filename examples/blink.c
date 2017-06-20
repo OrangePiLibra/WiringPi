@@ -29,7 +29,7 @@
 // LED Pin - wiringPi pin 0 is BCM_GPIO 17.
 
 #define	LED	0
-#define PB24      56
+#define PB24      25
 
 int main (void)
 {

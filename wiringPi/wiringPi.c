@@ -132,7 +132,7 @@ struct wiringPiNodeStruct *wiringPiNodes = NULL ;
  * that I can find )-:
  */ 
 #define	PAGE_SIZE		(4*1024)
-#define	BLOCK_SIZE		(3*4*1024)
+#define	BLOCK_SIZE		(4*1024)
 
 /* 
  * PWM
@@ -645,7 +645,7 @@ int piBoardRev(void)
  *	Use at your own risk!
  */
 
-void piBoardId (int *model, int *rev, int *mem, int *maker, int *overVolted)
+void piBoardId(int *model, int *rev, int *mem, int *maker, int *overVolted)
 {
 	FILE *cpuFd;
 	char line [120];
@@ -663,8 +663,13 @@ void piBoardId (int *model, int *rev, int *mem, int *maker, int *overVolted)
 
 	fclose(cpuFd);
 
-	if (strncmp(line, "Revision", 8) != 0)
-		piBoardRevOops("No \"Revision\" line");
+	if (strncmp(line, "Revision", 8) != 0) {
+		if (isOrangePi()) {
+			strcpy(line, "0000");
+		} else {
+			piBoardRevOops("No \"Revision\" line");
+		}
+	}
 
 	/* Chomp trailing CR/NL */
 	for (c = &line [strlen (line) - 1] ; (*c == '\n') || (*c == '\r') ; --c)
@@ -772,12 +777,10 @@ void piBoardId (int *model, int *rev, int *mem, int *maker, int *overVolted)
  * wpiPinToGpio:
  *	Translate a wiringPi Pin number to native GPIO pin number.
  *	Provided for external support.
- *********************************************************************************
  */
-
 int wpiPinToGpio (int wpiPin)
 {
-	return 0;
+	return pinToGpio[wpiPin & 63];
 }
 
 
@@ -785,23 +788,20 @@ int wpiPinToGpio (int wpiPin)
  * physPinToGpio:
  *	Translate a physical Pin number to native GPIO pin number.
  *	Provided for external support.
- *********************************************************************************
  */
-
-int physPinToGpio (int physPin)
+int physPinToGpio(int physPin)
 {
-	return 0;
+	return physToGpio[physPin & 63];
 }
 
 /*
  * physPinToGpio:
  *	Translate a physical Pin number to wiringPi  pin number. add by lemaker team for BananaPi
  *	Provided for external support.
- *********************************************************************************
  */
 int physPinToPin(int physPin)
 {
-	return physToPin [physPin & 63] ;
+	return physToPin[physPin & 63];
 }
 
 /*
@@ -1151,6 +1151,10 @@ void pinMode(int pin, int mode)
 		if (wiringPiDebug)
 			printf("PinMode: pin:%d,mode:%d\n", pin, mode);
 		if ((pin & PI_GPIO_MASK) == 0) {
+			if (wiringPiMode == WPI_MODE_PINS)
+				pin = pinToGpio[pin];
+			else if (wiringPiMode == WPI_MODE_PHYS)
+				pin = physToGpio[pin];
 			if (-1 == pin) {
 				printf("[%s:L%d] the pin:%d is invaild,please check it over!\n", 
 							__func__,  __LINE__, pin);
@@ -1318,6 +1322,15 @@ int digitalRead(int pin)
 					if (ret < 0)
 						return -1;
 				return (c == '0') ? LOW : HIGH;
+			} else if (wiringPiMode == WPI_MODE_PINS)
+				pin = pinToGpio[pin];
+			else if (wiringPiMode == WPI_MODE_PHYS)
+				pin = physToGpio[pin];
+			else
+				return LOW;
+			if (pin == -1) {
+				printf("[%s %d]Pin %d is invalid, please check it over!\n", __func__, __LINE__, pin);
+				return LOW;
 			}
 			/* Basic digital Read */
 			return OrangePi_digitalRead(pin);	
@@ -1390,7 +1403,12 @@ void digitalWrite (int pin, int value)
 						return;
 				}
 				return;
-			}
+			} else if (wiringPiMode == WPI_MODE_PINS)
+				pin = pinToGpio[pin];
+			else if (wiringPiMode == WPI_MODE_PHYS)
+				pin = physToGpio[pin];
+			else 
+				return;
 				   
 			if(-1 == pin) {
 				printf("[%s:L%d] the pin:%d is invaild,please check it over!\n",
@@ -1832,19 +1850,28 @@ int wiringPiSetup(void)
 		return wiringPiFailure(WPI_ALMOST, 
 				"wiringPiSetup: Unable to open /dev/mem: %s\n", strerror(errno));
 
+#ifdef CONFIG_ORANGEPI_2G_IOT
 	/* GPIO */
-	gpio = (uint32_t *)mmap(0, BLOCK_SIZE, PROT_READ | PROT_WRITE, MAP_SHARED, fd, GPIO_BASE);
+	gpio = (uint32_t *)mmap(0, BLOCK_SIZE * 3, PROT_READ | PROT_WRITE, MAP_SHARED, fd, GPIO_BASE);
 	if ((int32_t)(unsigned long)gpio == -1)
 		return wiringPiFailure(WPI_ALMOST, 
 				"wiringPiSetup: mmap (GPIO) failed: %s\n", strerror(errno));
 	OrangePi_gpio = gpio;
-#ifdef CONFIG_ORANGEPI_2G_IOT
 	/* GPIOC connect CPU with Modem */
 	OrangePi_gpioC = (uint32_t *)mmap(0, 0x1000, PROT_READ | PROT_WRITE, MAP_SHARED, fd, GPIOC_BASE);
 	if ((int32_t)(unsigned long)OrangePi_gpioC == -1)
 		return wiringPiFailure(WPI_ALMOST, 
 				"wiringPiSetup: mmap (GPIO) failed: %s\n", strerror(errno));
+#elif CONFIG_ORANGEPI_PC2
+	/* GPIO */
+	printf("Base address %#x\n", GPIO_BASE);
+	gpio = (uint32_t *)mmap(0, BLOCK_SIZE, PROT_READ | PROT_WRITE, MAP_SHARED, fd, GPIO_BASE);
+	if ((int32_t)(unsigned long)gpio == -1)
+		return wiringPiFailure(WPI_ALMOST, 
+				"wiringPiSetup: mmap (GPIO) failed: %s\n", strerror(errno));
+	OrangePi_gpio = gpio;
 #endif
+
 #if 0
 	/* PWM */
 	pwm = (uint32_t *)mmap(0, BLOCK_SIZE, PROT_READ|PROT_WRITE, MAP_SHARED, fd, GPIO_PWM);

@@ -76,7 +76,7 @@
 #define	PI_MODEL_B		2
 #define	PI_MODEL_BP		3
 #define	PI_MODEL_CM		4
-#define   PI_MODEL_BPR   5 //add for BananaPro by LeMaker team
+#define PI_MODEL_ORANGEPI  5
 
 #define	PI_VERSION_UNKNOWN	0
 #define	PI_VERSION_1		1
