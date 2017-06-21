@@ -43,6 +43,13 @@ The Open source project of WiringPi on OrangePi. maintain from www.orangepi.org
       sudo ./build OrangePi_H3
       sudo ./build OrangePi_H3 install
     ```
+    On OrangePi Zero
+
+    ```
+      cd WiringPi
+      sudo ./build OrangePi_ZERO
+      sudo ./build OrangePi_ZERO install
+    ```
   * Utilze WiringPi
 
     The location of demo code for WiringPi on OrangePi as follow:

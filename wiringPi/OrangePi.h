@@ -21,38 +21,6 @@
 #define GPIO_NUM                           (0x80)
 #define GPIO_BIT(x)                        (1UL << (x))
 
-/* Group A */
-#define GPIOA_OEN_VAL                      ((GPIOA_BASE) + 0x00)
-#define GPIOA_OEN_SET_OUT                  ((GPIOA_BASE) + 0x04) 
-#define GPIOA_SET_IN                       ((GPIOA_BASE) + 0x08)
-#define GPIOA_VAL                          ((GPIOA_BASE) + 0x0C)
-#define GPIOA_SET                          ((GPIOA_BASE) + 0x10)
-#define GPIOA_CLR                          ((GPIOA_BASE) + 0x14)
-
-/* Group B */
-#define GPIOB_OEN_VAL                      ((GPIOB_BASE) + 0x00)
-#define GPIOB_OEN_SET_OUT                  ((GPIOB_BASE) + 0x04) 
-#define GPIOB_SET_IN                       ((GPIOB_BASE) + 0x08)
-#define GPIOB_VAL                          ((GPIOB_BASE) + 0x0C)
-#define GPIOB_SET                          ((GPIOB_BASE) + 0x10)
-#define GPIOB_CLR                          ((GPIOB_BASE) + 0x14)
-
-/* Group C */
-#define GPIOC_OEN_VAL                      ((GPIOC_BASE) + 0x00)
-#define GPIOC_OEN_SET_OUT                  ((GPIOC_BASE) + 0x04) 
-#define GPIOC_SET_IN                       ((GPIOC_BASE) + 0x08)
-#define GPIOC_VAL                          ((GPIOC_BASE) + 0x0C)
-#define GPIOC_SET                          ((GPIOC_BASE) + 0x10)
-#define GPIOC_CLR                          ((GPIOC_BASE) + 0x14)
-
-/* Group D */
-#define GPIOD_OEN_VAL                      ((GPIOD_BASE) + 0x00)
-#define GPIOD_OEN_SET_OUT                  ((GPIOD_BASE) + 0x04) 
-#define GPIOD_SET_IN                       ((GPIOD_BASE) + 0x08)
-#define GPIOD_VAL                          ((GPIOD_BASE) + 0x0C)
-#define GPIOD_SET                          ((GPIOD_BASE) + 0x10)
-#define GPIOD_CLR                          ((GPIOD_BASE) + 0x14)
-
 #define OEN_VAL_REGISTER                   (0x00)
 #define OEN_SET_OUT_REGISTER               (0x04)
 #define SET_IN_REGISTER                    (0x08)
@@ -67,6 +35,7 @@
 #define GPIOA_BASE                         (0x01C20000)
 #define GPIO_NUM                           (0x40)
 #define GPIO_BASE_MAP                      (0x01C20800)
+#endif
 
 /************** OrangePi A64 ***********************/
 #ifdef CONFIG_ORANGEPI_A64
@@ -76,6 +45,13 @@
 #endif
 
 /************** OrangePi H3 ***********************/
+#ifdef CONFIG_ORANGEPI_H3
+#define GPIOA_BASE                         (0x01C20000)
+#define GPIO_NUM                           (0x40)
+#define GPIO_BASE_MAP                      (0x01C20800)
+#endif
+
+/************** OrangePi Zero ***********************/
 #ifdef CONFIG_ORANGEPI_H3
 #define GPIOA_BASE                         (0x01C20000)
 #define GPIO_NUM                           (0x40)
@@ -94,6 +70,7 @@
 extern int pinToGpioOrangePi[64];
 extern int physToGpioOrangePi[64];
 extern int physToPinOrangePi[64];
+extern int physToWpiOrangePi[64];
 extern volatile uint32_t *OrangePi_gpio;
 extern volatile uint32_t *OrangePi_gpioC;
 
@@ -111,11 +88,10 @@ extern int OrangePi_digitalRead(int pin);
 extern int ORANGEPI_PIN_MASK[4][32];
 #elif CONFIG_ORANGEPI_PC2
 extern int ORANGEPI_PIN_MASK[9][32];
-extern int physToWpiOrangePi[64];
 #elif CONFIG_ORANGEPI_A64
 extern int ORANGEPI_PIN_MASK[12][32];
-extern int physToWpiOrangePi[64];
 #elif CONFIG_ORANGEPI_H3
 extern int ORANGEPI_PIN_MASK[9][32];
-extern int physToWpiOrangePi[64];
+#elif CONFIG_ORANGEPI_ZERO
+extern int ORANGEPI_PIN_MASK[12][32];
 #endif
