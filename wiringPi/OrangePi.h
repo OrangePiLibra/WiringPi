@@ -68,12 +68,19 @@
 #define GPIO_NUM                           (0x40)
 #define GPIO_BASE_MAP                      (0x01C20800)
 
+/************** OrangePi A64 ***********************/
 #ifdef CONFIG_ORANGEPI_A64
 #define GPIOA_BASE                         (0x01C20000)
 #define GPIO_NUM                           (0x40)
 #define GPIO_BASE_MAP                      (0x01C20800)
 #endif
 
+/************** OrangePi H3 ***********************/
+#ifdef CONFIG_ORANGEPI_H3
+#define GPIOA_BASE                         (0x01C20000)
+#define GPIO_NUM                           (0x40)
+#define GPIO_BASE_MAP                      (0x01C20800)
+#endif
 
 /****************** Global data *********************/
 /* Current version */
@@ -107,5 +114,8 @@ extern int ORANGEPI_PIN_MASK[9][32];
 extern int physToWpiOrangePi[64];
 #elif CONFIG_ORANGEPI_A64
 extern int ORANGEPI_PIN_MASK[12][32];
+extern int physToWpiOrangePi[64];
+#elif CONFIG_ORANGEPI_H3
+extern int ORANGEPI_PIN_MASK[9][32];
 extern int physToWpiOrangePi[64];
 #endif

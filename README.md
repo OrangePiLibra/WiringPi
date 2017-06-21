@@ -36,6 +36,13 @@ The Open source project of WiringPi on OrangePi. maintain from www.orangepi.org
       sudo ./build OrangePi_A64
       sudo ./build OrangePi_A64 install
     ```
+    On OrangePi PC/PC plus/One/Lite/PC plus
+
+    ```
+      cd WiringPi
+      sudo ./build OrangePi_H3
+      sudo ./build OrangePi_H3 install
+    ```
   * Utilze WiringPi
 
     The location of demo code for WiringPi on OrangePi as follow:
@@ -58,7 +65,7 @@ The Open source project of WiringPi on OrangePi. maintain from www.orangepi.org
 
     ```
        orangepi@orangepi:~$ gpio readall
-       +-----+-----+----------+------+---+--OrangePiPC--+---+------+---------+-----+--+
+       +-----+-----+----------+------+---+--OrangePi+---+------+---------+-----+--+
        | BCM | wPi |   Name   | Mode | V | Physical | V | Mode | Name     | wPi | BCM |
        +-----+-----+----------+------+---+----++----+---+------+----------+-----+-----+
        |     |     |     3.3v |      |   |  1 || 2  |   |      | 5v       |     |     |
@@ -83,5 +90,5 @@ The Open source project of WiringPi on OrangePi. maintain from www.orangepi.org
        |     |     |       0v |      |   | 39 || 40 | 0 | OUT  | IO16PG07 | 16  | 21  |
        +-----+-----+----------+------+---+----++----+---+------+----------+-----+-----+
        | BCM | wPi |   Name   | Mode | V | Physical | V | Mode | Name     | wPi | BCM |
-       +-----+-----+----------+------+---+--OrangePIPC--+------+----------+-----+-----+
+       +-----+-----+----------+------+---+--OrangePi+------+----------+-----+-----+
       ```

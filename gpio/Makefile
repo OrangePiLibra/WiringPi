@@ -39,6 +39,7 @@ ifeq ($(PLATFORM),)
   PLATFORM = OrangePi_2G-IOT
   #PLATFORM = OrangePi_PC2
   #PLATFORM = OrangePi_A64
+  #PLATFORM = OrangePi_H5
 endif
 
 ifeq ($(PLATFORM), OrangePi_2G-IOT)
@@ -56,6 +57,11 @@ EXTRA_CFLAGS = -DCONFIG_ORANGEPI_A64
 EXTRA_CFLAGS += -DCONFIG_ORANGEPI
 endif
 
+ifeq ($(PLATFORM), OrangePi_H3)
+EXTRA_CFLAGS = -DCONFIG_ORANGEPI_H3
+EXTRA_CFLAGS += -DCONFIG_ORANGEPI
+endif
+
 # May not need to  alter anything below this line
 ###############################################################################
 
@@ -70,6 +76,10 @@ ifeq ($(PLATFORM), OrangePi_PC2)
 endif
 
 ifeq ($(PLATFORM), OrangePi_A64)
+  SRC += OrangePi.c
+endif
+
+ifeq ($(PLATFORM), OrangePi_H3)
   SRC += OrangePi.c
 endif
 
