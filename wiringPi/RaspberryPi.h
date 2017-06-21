@@ -14,5 +14,4 @@ extern int physToGpioR2[64];
 extern int pinToGpioR3[64];
 extern int physToGpioR3[64];
 extern int physToPinR3[64];
-
 #endif

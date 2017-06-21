@@ -214,15 +214,16 @@ int wiringPiCodes = FALSE ;
  * Only intended for the gpio command - use at your own risk!
  */
 
-const char *piModelNames [6] =
+#ifndef CONFIG_ORANGEPI
+const char *piModelNames[13] =
 {
 	"Unknown",
 	"Model A",
 	"Model B",
 	"Model B+",
 	"Compute Module",
-	"OrangePi", 
 };
+#endif
 
 const char *piRevisionNames [5] =
 {
@@ -761,7 +762,7 @@ void piBoardId(int *model, int *rev, int *mem, int *maker, int *overVolted)
 	} else if (strcmp (c, "0000") == 0) { 
 		*model = PI_MODEL_ORANGEPI;  
 		*rev = PI_VERSION_1_2;  
-		*mem = 1024;  
+		*mem = ORANGEPI_MEM_INFO;  
 		*maker = PI_MAKER_ORANGEPI;
 	} else { 
 		*model = 0; 
@@ -1816,7 +1817,7 @@ int wiringPiSetup(void)
 	/* Initialize the filedescriptor - table all to -1 */
 	memset(&sysFds, -1, sizeof(int) * 300);
 
-//	if (getenv(ENV_DEBUG) != NULL)
+	if (getenv(ENV_DEBUG) != NULL)
 		wiringPiDebug = TRUE;
 
 	if (getenv(ENV_CODES) != NULL)	
@@ -1862,14 +1863,21 @@ int wiringPiSetup(void)
 	if ((int32_t)(unsigned long)OrangePi_gpioC == -1)
 		return wiringPiFailure(WPI_ALMOST, 
 				"wiringPiSetup: mmap (GPIO) failed: %s\n", strerror(errno));
-#elif CONFIG_ORANGEPI_PC2
+#else
 	/* GPIO */
-	printf("Base address %#x\n", GPIO_BASE);
 	gpio = (uint32_t *)mmap(0, BLOCK_SIZE, PROT_READ | PROT_WRITE, MAP_SHARED, fd, GPIO_BASE);
 	if ((int32_t)(unsigned long)gpio == -1)
 		return wiringPiFailure(WPI_ALMOST, 
 				"wiringPiSetup: mmap (GPIO) failed: %s\n", strerror(errno));
 	OrangePi_gpio = gpio;
+#ifdef CONFIG_ORANGEPI_A64
+	/* GPIOC connect CPU with Modem */
+	OrangePi_gpioC = (uint32_t *)mmap(0, BLOCK_SIZE, PROT_READ | PROT_WRITE, 
+			MAP_SHARED, fd, GPIOL_BASE_MAP);
+	if ((int32_t)(unsigned long)OrangePi_gpioC == -1)
+		return wiringPiFailure(WPI_ALMOST, 
+				"wiringPiSetup: mmap (GPIO) failed: %s\n", strerror(errno));
+#endif
 #endif
 
 #if 0

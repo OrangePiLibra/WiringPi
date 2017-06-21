@@ -1,9 +1,6 @@
 #ifndef _ORANGEPI_H
 #define _ORANGEPI_H
 
-#define ORANGEPI      8888
-
-
 #ifdef CONFIG_ORANGEPI_2G_IOT
 /********** OrangePi 2G-IOT *************/
 /*
@@ -28,6 +25,9 @@
 #define SET_REGISTER                       (0x10)
 #define CLR_REGISTER                       (0x14)
 
+#define MEM_INFO                           (512)
+#define MAP_SIZE_L                         (4 * 4096)
+
 #endif /* CONFIG_ORANGEPI_2G_IOT */
 
 #ifdef CONFIG_ORANGEPI_PC2
@@ -35,6 +35,8 @@
 #define GPIOA_BASE                         (0x01C20000)
 #define GPIO_NUM                           (0x40)
 #define GPIO_BASE_MAP                      (0x01C20800)
+#define MEM_INFO                           (1024)
+#define MAP_SIZE_L                         (4096 * 2)
 #endif
 
 /************** OrangePi A64 ***********************/
@@ -42,6 +44,10 @@
 #define GPIOA_BASE                         (0x01C20000)
 #define GPIO_NUM                           (0x40)
 #define GPIO_BASE_MAP                      (0x01C20800)
+#define MEM_INFO                           (1024)
+#define GPIOL_BASE                         (0x01F02c00)
+#define GPIOL_BASE_MAP                     (0x01F02000)  
+#define MAP_SIZE_L                         (4096 * 2)
 #endif
 
 /************** OrangePi H3 ***********************/
@@ -49,23 +55,29 @@
 #define GPIOA_BASE                         (0x01C20000)
 #define GPIO_NUM                           (0x40)
 #define GPIO_BASE_MAP                      (0x01C20800)
+#define MEM_INFO                           (1024)
+#define MAP_SIZE_L                         (4096 * 2)
 #endif
 
 /************** OrangePi Zero ***********************/
-#ifdef CONFIG_ORANGEPI_H3
+#ifdef CONFIG_ORANGEPI_ZERO
 #define GPIOA_BASE                         (0x01C20000)
 #define GPIO_NUM                           (0x40)
 #define GPIO_BASE_MAP                      (0x01C20800)
+#define MEM_INFO                           (1024)
+#define MAP_SIZE_L                         (4096 * 2)
 #endif
 
 /****************** Global data *********************/
 /* Current version */
-#define PI_MAKER_ORANGEPI  0xfffff
+#define PI_MAKER_ORANGEPI  4
 #define MAX_PIN_NUM        GPIO_NUM
-#define MAP_SIZE           (4 * 4096) 
+#define MAP_SIZE           MAP_SIZE_L
 #define MAP_MASK           (MAP_SIZE - 1)
 #define PI_GPIO_MASK       (~(GPIO_NUM - 1))
 #define GPIO_BASE          GPIOA_BASE
+#define ORANGEPI_MEM_INFO  MEM_INFO
+
 
 extern int pinToGpioOrangePi[64];
 extern int physToGpioOrangePi[64];
@@ -84,6 +96,10 @@ extern void writeR(unsigned int val, unsigned int addr);
 extern int OrangePi_digitalWrite(int pin, int value);
 extern int OrangePi_digitalRead(int pin);
 
+#ifdef CONFIG_ORANGEPI
+extern const char *piModelNames[6];
+#endif
+
 #ifdef CONFIG_ORANGEPI_2G_IOT
 extern int ORANGEPI_PIN_MASK[4][32];
 #elif CONFIG_ORANGEPI_PC2
@@ -94,4 +110,5 @@ extern int ORANGEPI_PIN_MASK[12][32];
 extern int ORANGEPI_PIN_MASK[9][32];
 #elif CONFIG_ORANGEPI_ZERO
 extern int ORANGEPI_PIN_MASK[12][32];
+#endif
 #endif

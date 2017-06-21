@@ -26,24 +26,24 @@
 #include <stdio.h>
 #include <wiringPi.h>
 
-// LED Pin - wiringPi pin 0 is BCM_GPIO 17.
 
-#define	LED	0
-#define PB24      25
+#define	LED	          25
 
 int main (void)
 {
-  printf ("Raspberry Pi blink\n") ;
+	printf ("OrangePi Pi ddblink\n");
 
-  wiringPiSetup () ;
-  pinMode (PB24, OUTPUT) ;
+	/* Initialize and setting WiringPi */
+	wiringPiSetup();
+  
+	/* Configure GPIO mode */
+	pinMode (LED, OUTPUT);
 
-  for (;;)
-  {
-    digitalWrite (PB24, HIGH) ;	// On
-    delay (500) ;		// mS
-    digitalWrite (PB24, LOW) ;	// Off
-    delay (500) ;
-  }
-  return 0 ;
+	for (;;) {
+		digitalWrite(LED, HIGH);	// On
+		delay(500);		            // mS
+		digitalWrite(PB24, LOW);	// Off
+		delay(500);
+	}
+	return 0;
 }
