@@ -13,7 +13,7 @@ int pinToGpioOrangePi[64] =
 { 
 	70,  37,      // 0, 1
 	14,  15,      // 2, 3
-	101,  121,      // 4  5
+	69,  89,      // 4  5
 	16,  56,      // 6, 7
 	62,  63,      // 8, 9
 	5,    6,      //10,11
@@ -21,9 +21,9 @@ int pinToGpioOrangePi[64] =
 	2,   72,      //14,15
 	71,  -1,      //16,17
 	-1,  -1,      //18,19
-	-1,  122,      //20,21
-	123,  124,      //22,23
-	125,  126,      //24,25
+	-1,  90,      //20,21
+	91,  92,      //22,23
+	93,  94,      //24,25
 	41,  40,      //26,27
 	38,  39,    //28,29
 	1,    0,    //30,31
@@ -42,18 +42,18 @@ int physToGpioOrangePi[64] =//head num map to OrangePi
 	-1, 71,   // 9, 10
 	70, 37,   // 11, 12
 	14, -1,   // 13, 14
-	15, 101,   // 15, 16
-	-1, 121,   // 17, 18
+	15, 69,   // 15, 16
+	-1, 89,   // 17, 18
 	 4, -1,   // 19, 20
 	 3, 16,   // 21, 22
 	 2,  5,   // 23, 24
 	-1,  6,   // 25, 26
 	 1,  0,   // 27, 28
-	122, -1,   // 29, 30
-	123, 41,   // 31, 32
-	124, -1,   // 33, 34
-	125, 40,   // 35, 36
-	126, 38,   // 37, 38
+	90, -1,   // 29, 30
+	91, 41,   // 31, 32
+	92, -1,   // 33, 34
+	93, 40,   // 35, 36
+	94, 38,   // 37, 38
 	-1, 39,   // 39, 40
 // Padding:
   -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,   // ... 56
@@ -520,7 +520,9 @@ unsigned int readR(unsigned int addr)
     unsigned int mmap_seek = (addr - mmap_base) >> 2; /* Adjust for int32* pointer arithmetic  */
 
 	if (mmap_base == 0x11a08000) /* Group C */
+   {
 		val = *((volatile uint32_t*)OrangePi_gpioC + mmap_seek);
+   }
 	else                         /* Group A, B and D */
    {
 		val = *((volatile uint32_t*)OrangePi_gpio + mmap_seek);
@@ -551,9 +553,13 @@ void writeR(unsigned int val, unsigned int addr)
     unsigned int mmap_seek = (addr - mmap_base) >> 2;  /* Adjust for int32* pointer arithmetic */
 
 	if (mmap_base == 0x11a08000)
+   {
 		*((volatile uint32_t*)OrangePi_gpioC + mmap_seek) = val;
+   }
 	else
+   {
 		*((volatile uint32_t*)OrangePi_gpio + mmap_seek) = val;
+   }
 #else
 	unsigned int mmap_base = (addr & ~MAP_MASK);
 	unsigned int mmap_seek = ((addr - mmap_base) >> 2);
@@ -770,10 +776,6 @@ int OrangePi_digitalRead(int pin)
 	unsigned int phys_SET_R;
 	unsigned int phys_VAL_R;
 
-	/* version 0.1 not support GPIOC input function */
-	if (bank == 2)
-		return -1;
-
     /* Offset of register */
 	if (bank == 0)            /* group A */
 		base_address = GPIOA_BASE;
@@ -803,6 +805,8 @@ int OrangePi_digitalRead(int pin)
 			val = (readR(phys_VAL_R) & GPIO_BIT(index)) ? 1 : 0;
 		else                                       /* Ouput */
 			val = (readR(phys_SET_R) & GPIO_BIT(index)) ? 1 : 0;
+		if (wiringPiDebug)
+			printf("Read reg val: 0x%#x, bank:%d, index:%d\n", val, bank, index);
 		return val;
 #endif
 	}
