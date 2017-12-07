@@ -517,12 +517,16 @@ unsigned int readR(unsigned int addr)
 #ifdef CONFIG_ORANGEPI_2G_IOT
     unsigned int val = 0;
     unsigned int mmap_base = (addr & ~MAP_MASK);
-    unsigned int mmap_seek = (addr - mmap_base);
+    unsigned int mmap_seek = (addr - mmap_base) >> 2; /* Adjust for int32* pointer arithmetic  */
 
 	if (mmap_base == 0x11a08000) /* Group C */
-		val = *((char *)OrangePi_gpioC + mmap_seek);
+   {
+		val = *((volatile uint32_t*)OrangePi_gpioC + mmap_seek);
+   }
 	else                         /* Group A, B and D */
-		val = *((char *)OrangePi_gpio + mmap_seek);
+   {
+		val = *((volatile uint32_t*)OrangePi_gpio + mmap_seek);
+   }
     return val;
 #else
 	uint32_t val = 0;
@@ -546,12 +550,16 @@ void writeR(unsigned int val, unsigned int addr)
 {
 #ifdef CONFIG_ORANGEPI_2G_IOT
     unsigned int mmap_base = (addr & ~MAP_MASK);
-    unsigned int mmap_seek = (addr - mmap_base);
+    unsigned int mmap_seek = (addr - mmap_base) >> 2;  /* Adjust for int32* pointer arithmetic */
 
 	if (mmap_base == 0x11a08000)
-		*((char *)OrangePi_gpioC + mmap_seek) = val;
+   {
+		*((volatile uint32_t*)OrangePi_gpioC + mmap_seek) = val;
+   }
 	else
-		*((char *)OrangePi_gpio + mmap_seek) = val;
+   {
+		*((volatile uint32_t*)OrangePi_gpio + mmap_seek) = val;
+   }
 #else
 	unsigned int mmap_base = (addr & ~MAP_MASK);
 	unsigned int mmap_seek = ((addr - mmap_base) >> 2);
@@ -768,10 +776,6 @@ int OrangePi_digitalRead(int pin)
 	unsigned int phys_SET_R;
 	unsigned int phys_VAL_R;
 
-	/* version 0.1 not support GPIOC input function */
-	if (bank == 2)
-		return -1;
-
     /* Offset of register */
 	if (bank == 0)            /* group A */
 		base_address = GPIOA_BASE;
@@ -801,6 +805,8 @@ int OrangePi_digitalRead(int pin)
 			val = (readR(phys_VAL_R) & GPIO_BIT(index)) ? 1 : 0;
 		else                                       /* Ouput */
 			val = (readR(phys_SET_R) & GPIO_BIT(index)) ? 1 : 0;
+		if (wiringPiDebug)
+			printf("Read reg val: 0x%#x, bank:%d, index:%d\n", val, bank, index);
 		return val;
 #endif
 	}
